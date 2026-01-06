@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Stopwatch</title>
+  </head>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: Arial, sans-serif;
+    }
+
+    body {
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: #0f172a;
+    }
+
+    .stopwatch {
+      background: #020617;
+      padding: 30px 40px;
+      border-radius: 12px;
+      text-align: center;
+      color: white;
+      width: 300px;
+    }
+
+    .title {
+      margin-bottom: 20px;
+      font-size: 24px;
+    }
+
+    .time {
+      font-size: 40px;
+      margin-bottom: 25px;
+      letter-spacing: 2px;
+    }
+
+    .buttons {
+      display: flex;
+      justify-content: space-between;
+    }
+
+    button {
+      padding: 8px 15px;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 14px;
+      color: white;
+    }
+
+    .start {
+      background: #16a34a;
+    }
+
+    .stop {
+      background: #dc2626;
+    }
+
+    .reset {
+      background: #2563eb;
+    }
+
+    button:hover {
+      opacity: 0.9;
+    }
+  </style>
+  <body>
+    <div class="stopwatch">
+      <h1 class="title">Stopwatch</h1>
+
+      <div class="time" id="display">00:00:00</div>
+
+      <div class="buttons">
+        <button class="start" id = "startBtn">Start</button>
+        <button class="stop" id = "stopBtn">Stop</button>
+        <button class="reset" id = "resetBtn">Reset</button>
+      </div>
+    </div>
+    <script>
+       let startBtn = document.getElementById("startBtn");
+       let stopBtn =  document.getElementById("stopBtn");
+       let resetBtn = document.getElementById("resetBtn");
+
+    
+      let h = 0;
+      let s = 0;
+      let m = 0;
+      let timer = null;
+
+      startBtn.addEventListener("click", startStopWatch);
+      stopBtn.addEventListener("click", stopwatch);
+      resetBtn.addEventListener("click", resetStopWatch);
+
+      function startStopWatch() {
+        if (timer !== null) return;
+
+        timer = setInterval(() => {
+          s++;
+          if (s === 60) {
+            s = 0;
+            m++;
+            if (m === 60) {
+              m = 0;
+              h++;
+            }
+          }
+          displayStopWatch()
+        },1000);
+      }
+
+      function stopwatch(){
+        clearInterval(timer);
+        timer = null;
+      };
+
+      function resetStopWatch(){
+        clearInterval(timer);
+        timer = null;
+        h =0;
+        m=0;
+        s=0;
+        
+displayStopWatch()
+      }
+
+      function displayStopWatch() {
+        let hs = h < 10 ? "0" + h: h;
+        let ms = m <10 ? "0" + m : m;
+        let ss = s < 10 ? "0" + s : s;
+        document.getElementById("display").innerHTML = `${hs}:${ms}:${ss}`;
+      
+      }
+    </script>
+  </body>
+</html>
