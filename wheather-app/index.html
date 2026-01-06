@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Weather App</title>
+  </head>
+  <style>
+    body {
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: #e3f2fd;
+      font-family: Arial;
+    }
+
+    .weather-box {
+      background: white;
+      padding: 25px;
+      width: 300px;
+      text-align: center;
+      border-radius: 8px;
+    }
+
+    input {
+      width: 100%;
+      padding: 8px;
+      margin-bottom: 10px;
+    }
+
+    button {
+      padding: 8px 15px;
+      cursor: pointer;
+    }
+  </style>
+  <body>
+    <div class="weather-box">
+      <h2>Weather App 🌦️</h2>
+
+      <input type="text" id="cityInput" placeholder="Enter city name" />
+      <button id="searchBtn">Search</button>
+
+      <div id="result">
+        <p id="loading"></p>
+        <p id="temp"></p>
+        <p id="condition"></p>
+        <img id="icon" />
+      </div>
+    </div>
+
+    <script>
+      const apiKey = "9a04305583247ac4fa92ad1874ad2600";
+
+      let searchBtn = document.getElementById("searchBtn");
+      let cityInput = document.getElementById("cityInput");
+      let tempShow = document.getElementById("temp");
+      let conditionShow = document.getElementById("condition");
+      let loadingShow = document.getElementById("loading");
+      let iconShow = document.getElementById("icon");
+
+      searchBtn.addEventListener("click", function () {
+        const cityName = cityInput.value;
+
+        if (cityName === "") return;
+        fetchWheather(cityName);
+      });
+
+      async function fetchWheather(cityName) {
+        try {
+          const response = await fetch(
+            `https://api.openweathermap.org/data/2.5/weather?q=${cityName}&appid=${apiKey}&units=metric`
+          );
+
+          if (!response.ok) {
+            throw new Error("city not found");
+          }
+          const data = await response.json();
+          console.log(data);
+          loadingShow.innerText =  "Loading...";
+          tempShow.innerText = `Temperature: ${data.main.temp} °C`;
+          conditionShow.innerText = `Weather: ${data.weather[0].main}`;
+          iconShow.src= `https://openweathermap.org/img/wn/${iconCode}@2x.png`;
+ 
+        } catch (error) {
+          loadingShow.innerText =  "";
+          tempShow.innerText = "";
+          conditionShow.innerText = error.message;
+        }
+      }
+
+      cityInput.addEventListener("keypress", function(e){
+           if(e.key === "Enter"){
+                searchBtn.click();
+           }
+      });
+    </script>
+  </body>
+</html>

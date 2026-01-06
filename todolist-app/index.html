@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>To-Do List</title>
+    <!-- <link rel="stylesheet" href="style.css" /> -->
+  </head>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f2f2f2;
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .todo-container {
+      background: white;
+      padding: 25px;
+      width: 350px;
+      border-radius: 8px;
+    }
+
+    form {
+      display: flex;
+      gap: 10px;
+    }
+
+    input {
+      flex: 1;
+      padding: 10px;
+    }
+
+    button {
+      padding: 10px;
+      cursor: pointer;
+    }
+
+    li {
+      list-style: none;
+      margin-top: 10px;
+      padding: 8px;
+      background: #eee;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+  </style>
+  <body>
+    <div class="todo-container">
+      <h2>My To-Do List 📝</h2>
+
+      <form id="todoForm">
+        <input type="text" id="todoInput" placeholder="Enter a task" />
+        <button type="submit">Add</button>
+      </form>
+
+      <ul id="todoList"></ul>
+    </div>
+
+    <script>
+      let todoForm = document.getElementById("todoForm");
+      let todoInput = document.getElementById("todoInput");
+      let todoList = document.getElementById("todoList");
+      // Load existing todos
+      let todos = JSON.parse(localStorage.getItem("todos") ) || [];
+      // Show todos on page load
+      showTodos();
+
+      todoForm.addEventListener("submit", function (e) {
+        e.preventDefault();
+
+        if (todoInput.value === "") return;
+
+        todos.push(todoInput.value);
+        localStorage.setItem("todos", JSON.stringify(todos));
+
+        todoInput.value = "";
+
+        showTodos();
+      });
+
+      function showTodos() {
+        todoList.innerHTML = "";
+
+        todos.forEach((todo, index) => {
+          const li = document.createElement("li");
+          li.innerHTML = `
+            ${todo}
+            <button onclick="deleteTodo(${index})">❌</button>
+        `;
+
+          todoList.appendChild(li);
+        });
+      }
+
+      function deleteTodo(index) {
+        todos.splice(index, 1);
+        localStorage.setItem("todos", JSON.stringify(todos));
+        showTodos();
+      }
+    </script>
+  </body>
+</html>

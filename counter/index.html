@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Counter App</title>
+  </head>
+  <style>
+    body {
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: #f2f2f2;
+      font-family: Arial;
+    }
+
+    .counter-box {
+      background: white;
+      padding: 30px;
+      text-align: center;
+      border-radius: 8px;
+    }
+
+    button {
+      margin: 5px;
+      padding: 10px 15px;
+      cursor: pointer;
+    }
+  </style>
+  <body>
+    <div class="counter-box">
+      <h1>Counter App</h1>
+      <h2 id="count">0</h2>
+
+      <button id="increase">Increase</button>
+      <button id="decrease">Decrease</button>
+      <button id="reset">Reset</button>
+    </div>
+
+    <script>
+      let count = Number(localStorage.getItem("count")) || 0;
+
+      let countShow = document.getElementById("count");
+      let increaseBtn = document.getElementById("increase");
+      let decreaseBtn = document.getElementById("decrease");
+      let resetBtn = document.getElementById("reset");
+
+      increaseBtn.addEventListener("click", function () {
+        if (count < 100) {
+          count++;
+          updateColour();
+          showWarning();
+        }
+
+        countShow.innerHTML = count;
+        saveLocalStorage();
+      });
+
+      decreaseBtn.addEventListener("click", function () {
+        if (count > 0) {
+          count--;
+          updateColour();
+        } else if (count > 10) {
+          showWarning();
+        }
+
+        countShow.innerHTML = count;
+             saveLocalStorage();
+      });
+
+      resetBtn.addEventListener("click", function () {
+        count = 0;
+        updateColour();
+        showWarning();
+        countShow.innerHTML = count;
+      });
+
+      function updateColour() {
+        if (count > 15) {
+          countShow.style.color = "green";
+        } else if (count > 0) {
+          countShow.style.color = "red";
+        } else {
+          countShow.style.color = "black";
+        }
+      };
+
+      function showWarning() {
+        if (count > 10) {
+          alert("are you increased the value " + count);
+        }
+      };
+      function saveLocalStorage(){
+        localStorage.setItem("count",count);
+      }
+
+            saveLocalStorage();
+    </script>
+  </body>
+</html>

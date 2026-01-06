@@ -1,0 +1,54 @@
+<!Doctyp html>
+<html>
+  <head>
+    <title>html btn with js</title>
+  </head>
+  <body>
+    <button id="myBtn">click me</button>
+
+    <button id="bodyColor">colorChange</button>
+
+    <button id="randomColor">randomColor</button>
+
+    <p id="text">get new qoute click on button</p>
+
+    <button id="newQuote">qoute</button>
+
+    <script>
+      let myBtn = document.getElementById("bodyColor");
+      let btn = document.getElementById("myBtn");
+      let colorChange = document.getElementById("randomColor");
+      let qouteButton = document.getElementById("newQuote");
+      let text = document.querySelector("#text");
+
+      const quotes = [
+        "Believe in yourself",
+        "Success is not final, failure is not fatal",
+        "Dream big and dare to fail",
+        "Hard work beats talent",
+        "Never stop learning",
+      ];
+
+      myBtn.addEventListener("click", function () {
+        document.body.style.backgroundColor = "lightblue";
+      });
+
+      btn.addEventListener("click", function () {
+        alert("button clicker");
+      });
+
+      colorChange.addEventListener("click", function () {
+        const color = ["red", "blue", "green", "purple", "orange", "pink"];
+
+        const randomIndex = Math.floor(Math.random() * color.length);
+
+        document.body.style.backgroundColor = color[randomIndex];
+      });
+
+      qouteButton.addEventListener("click", function () {
+        const randomIndex = Math.floor(Math.random()*quotes.length);
+        text.innerHTML = quotes[randomIndex];
+      });
+    </script>
+  </body>
+</html>
